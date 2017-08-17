@@ -129,10 +129,10 @@ namespace Money
         public static Money<TCurrency> operator +(Money<TCurrency> left, Money<TCurrency> right)
         {
             // flatten any embedded sums to ensure top-level monetary expressions only contain flat arrays of values
-            return left.sum == null && right.sum == null ? new Money<TCurrency>(left, right):
+            return left.sum != null && right.sum != null ? new Money<TCurrency>(left.sum.Concat(right.sum).ToArray()):
                    left.sum != null                      ? new Money<TCurrency>(left.sum.Append(right).ToArray()):
                    right.sum != null                     ? new Money<TCurrency>(right.sum.Append(left).ToArray()):
-                                                           new Money<TCurrency>(left.sum.Concat(right.sum).ToArray());
+                                                           new Money<TCurrency>(left, right);
         }
         
         /// <summary>
